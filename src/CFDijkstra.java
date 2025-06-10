@@ -1,0 +1,257 @@
+import java.util.*;
+import java.io.*;
+
+public class CFDijkstra {
+    static int LOG = 30;
+    static Reader sc = new Reader();
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static List<List<int[]>> g = new ArrayList<>();
+
+    public static void main(String[] args) throws Exception {
+        // int n = ni();
+        // int k = ni();
+        // int[] arr = ni(n);
+        int n = ni(), m = ni();
+        for (int i = 0; i < n; i++) {
+            g.add(new ArrayList<>());
+        }
+        for (int i = 0; i < m; i++) {
+            int u = ni() - 1, v = ni() - 1, wt = ni();
+            g.get(u).add(new int[]{v, wt});
+            g.get(v).add(new int[]{u, wt});
+        }
+        long[] dist = new long[n];
+        int[] from = new int[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[0] = 0L;
+        PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[1], b[1]));
+        pq.add(new long[]{0L, 0L});
+        while (!pq.isEmpty()) {
+            long[] node = pq.poll();
+            int u = (int)node[0];
+            long d = node[1];
+            for (int[] to : g.get(u)) {
+                int v = to[0], wt = to[1];
+                if (dist[v] > wt + d) {
+                    dist[v] = wt + d;
+                    from[v] = u;
+                    pq.add(new long[]{(long)v, wt + d});
+                }
+            }
+        }
+        if (dist[n - 1] == Long.MAX_VALUE)
+            println(-1);
+        else {
+            List<Integer> path = new ArrayList<>();
+            for (int i = n - 1; i > 0;) {
+                path.add(i);
+                i = from[i];
+            }
+            printSp(1);
+            for (int i = path.size() - 1; i >= 0; i--) {
+                printSp(path.get(i) + 1);
+            }
+        }
+        bw.flush();
+        bw.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    static class Reader {
+        final private int BUFFER_SIZE = 1 << 16;
+        private DataInputStream din;
+        private byte[] buffer;
+        private int bufferPointer, bytesRead;
+
+        public Reader() {
+            din = new DataInputStream(System.in);
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public Reader(String file_name) throws IOException {
+            din = new DataInputStream(new FileInputStream(file_name));
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+        }
+
+        public String readLine() throws IOException {
+            byte[] buf = new byte[64]; // line length
+            int cnt = 0, c;
+            while ((c = read()) != -1) {
+                if (c == '\n')
+                    break;
+                buf[cnt++] = (byte) c;
+            }
+            return new String(buf, 0, cnt);
+        }
+
+        public int nextInt() throws IOException {
+            int ret = 0;
+            byte c = read();
+            while (c <= ' ')
+                c = read();
+            boolean neg = (c == '-');
+            if (neg)
+                c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            if (neg)
+                return -ret;
+            return ret;
+        }
+
+        public long nextLong() throws IOException {
+            long ret = 0;
+            byte c = read();
+            while (c <= ' ')
+                c = read();
+            boolean neg = (c == '-');
+            if (neg)
+                c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            if (neg)
+                return -ret;
+            return ret;
+        }
+
+        public double nextDouble() throws IOException {
+            double ret = 0, div = 1;
+            byte c = read();
+            while (c <= ' ')
+                c = read();
+            boolean neg = (c == '-');
+            if (neg)
+                c = read();
+            do {
+                ret = ret * 10 + c - '0';
+            } while ((c = read()) >= '0' && c <= '9');
+            if (c == '.') {
+                while ((c = read()) >= '0' && c <= '9') {
+                    ret += (c - '0') / (div *= 10);
+                }
+            }
+            if (neg)
+                return -ret;
+            return ret;
+        }
+
+        private void fillBuffer() throws IOException {
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
+            if (bytesRead == -1)
+                buffer[0] = -1;
+        }
+
+        private byte read() throws IOException {
+            if (bufferPointer == bytesRead)
+                fillBuffer();
+            return buffer[bufferPointer++];
+        }
+
+        public void close() throws IOException {
+            if (din == null)
+                return;
+            din.close();
+        }
+    }
+    
+    public static int ni()throws IOException
+    {
+        return sc.nextInt();
+    }
+    public static long nl()throws IOException
+    {
+        return sc.nextLong();
+    }
+    public static double nd()throws IOException
+    {
+        return sc.nextDouble();
+    }
+    public static String ns()throws IOException
+    {
+        return sc.readLine();
+    }
+    public static void print(String a)throws IOException
+    {
+        bw.write(a);
+    }
+    public static void printSp(String a)throws IOException
+    {
+        bw.write(a+" ");
+    }
+    public static void println(String a)throws IOException
+    {
+        bw.write(a+"\n");
+    }
+    public static void print(int a) throws IOException {
+        bw.write(Integer.toString(a));
+    }
+    
+    public static void println(int a) throws IOException {
+        bw.write(Integer.toString(a));
+        bw.newLine();
+    }
+    
+    public static void print(long a) throws IOException {
+        bw.write(Long.toString(a));
+    }
+    
+    public static void println(long a) throws IOException {
+        bw.write(Long.toString(a));
+        bw.newLine();
+    }
+    
+    public static void printSp(int a) throws IOException {
+        bw.write(Integer.toString(a));
+        bw.write(' ');
+    }
+    
+    public static void printSp(long a) throws IOException {
+        bw.write(Long.toString(a));
+        bw.write(' ');
+    }
+
+
+}

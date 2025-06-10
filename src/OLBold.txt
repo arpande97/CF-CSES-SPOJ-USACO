@@ -1,0 +1,37 @@
+Extension Structure:
+manifest.json: Defines the extension's permissions and structure
+popup.html and popup.js: Manage the UI for adding/removing words and selecting formatting style
+content.js: Interacts with Overleaf's editor
+background.js: Handles extension installation and initialization
+styles.css: Additional styling for the extension
+Key Features:
+Maintain a list of words to be formatted
+Choose between bold and italic formatting
+Format text using a toolbar button or keyboard shortcuts
+Works seamlessly with Overleaf's editor
+Preserves LaTeX formatting syntax
+How it works with Overleaf:
+The extension injects a button into Overleaf's toolbar
+It monitors the editor for text selection
+When text is selected, it checks for matches against your word list
+It adds appropriate LaTeX commands (\textbf{} or \textit{}) around matching words
+The extension preserves existing LaTeX syntax and doesn't interfere with other formatting
+Installation:
+Open Chrome and go to chrome://extensions/
+Enable "Developer mode"
+Click "Load unpacked" and select the directory containing these files
+The extension icon should appear in your Chrome toolbar
+Usage:
+Click the extension icon to open the popup
+Add words you want to track for formatting
+Choose whether you want bold or italic formatting
+In Overleaf, you can format text in three ways:
+Select text and click the "Format" button in the toolbar
+Use keyboard shortcuts (Ctrl/Cmd + Shift + B for bold, Ctrl/Cmd + Shift + I for italic)
+Select text and click the extension icon to format
+Features for ease of use:
+The word list is synced across Chrome instances using Chrome's storage sync
+The extension ignores punctuation when matching words
+The toolbar button provides quick access to formatting
+Keyboard shortcuts for power users
+Visual feedback when formatting is applied
